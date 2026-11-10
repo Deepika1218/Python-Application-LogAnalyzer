@@ -7,12 +7,12 @@ levels using Regular Expressions, and generates
 an analysis report.
 
 ## Features
-- Reads application log files
-- Extracts timestamps, log levels and messages
-- Counts ERROR, WARNING and INFO entries
-- Identifies invalid log entries
-- Generates a text-based analysis report
-- Handles missing files and unexpected errors
+- Reads and processes application log files.
+- Extracts timestamps, log levels and messages using Regular Expressions.
+- Counts INFO, WARNING and ERROR log entries.
+- Identifies invalid log entries.
+- Handles missing files and unexpected exceptions.
+- Generates an analysis report in a text file.
 
 ## Technologies Used
 - Python 3

@@ -2,113 +2,101 @@
 import re
 import os
 
-# Log file paths
-file_path = "Logs/Application.log"
-report_path = "Reports/analysis_report.txt"
-
-# Regex pattern
-pattern = r"^(\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2})\s+(INFO|WARNING|ERROR)\s+(.*)$"
-
-
-# Function to analyze log file
 def analyze_log_file(file_path):
 
-    error_count = 0
-    warning_count = 0
-    info_count = 0
+    log_counts = {
+        "INFO": 0,
+        "WARNING": 0,
+        "ERROR": 0
+    }
+
     total_lines = 0
+    valid_lines = 0
     invalid_lines = 0
 
-    report = []
+    log_pattern = r"^(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}) (INFO|WARNING|ERROR) (.+)$"
 
-    if not os.path.exists(file_path):
-        raise FileNotFoundError("Log file not found!")
+    try:
+        with open(file_path, "r") as file:
 
-    with open(file_path, "r") as file:
+            for line in file:
 
-        report.append("========== APPLICATION LOG ANALYZER ==========")
+                line = line.strip()
 
-        for line in file:
+                if not line:
+                    continue
 
-            total_lines += 1
-            line = line.strip()
+                total_lines += 1
 
-            match = re.search(pattern, line)
+                match = re.match(log_pattern, line)
 
-            if match:
+                if match:
 
-                timestamp = match.group(1)
-                log_level = match.group(2)
-                message = match.group(3)
+                    timestamp = match.group(1)
+                    log_level = match.group(2)
+                    message = match.group(3)
 
-                report.append("")
-                report.append("Timestamp: " + timestamp)
-                report.append("Log Level: " + log_level)
-                report.append("Message: " + message)
+                    log_counts[log_level] += 1
+                    valid_lines += 1
 
-                if log_level == "ERROR":
-                    error_count += 1
+                else:
+                    invalid_lines += 1
 
-                elif log_level == "WARNING":
-                    warning_count += 1
+        report = f"""
+APPLICATION LOG ANALYSIS REPORT
+================================
 
-                elif log_level == "INFO":
-                    info_count += 1
+Total Log Entries : {total_lines}
+Valid Entries     : {valid_lines}
+Invalid Entries   : {invalid_lines}
 
-            else:
-                invalid_lines += 1
+INFO Count        : {log_counts["INFO"]}
+WARNING Count     : {log_counts["WARNING"]}
+ERROR Count       : {log_counts["ERROR"]}
 
-    # Generate summary
-    report.append("")
-    report.append("========== LOG ANALYSIS REPORT ==========")
+================================
+"""
 
-    report.append("Total Log Entries: " + str(total_lines))
-    report.append("Valid Log Entries: " + str(total_lines - invalid_lines))
-    report.append("Invalid Log Entries: " + str(invalid_lines))
+        return report
 
-    report.append("")
-    report.append("----- LOG LEVEL SUMMARY -----")
+    except FileNotFoundError:
+        print("Error: Log file not found.")
+        return None
 
-    report.append("ERROR Count: " + str(error_count))
-    report.append("WARNING Count: " + str(warning_count))
-    report.append("INFO Count: " + str(info_count))
-
-    report.append("")
-    report.append("========== ANALYSIS COMPLETED ==========")
-
-    return report
+    except Exception as e:
+        print("An unexpected error occurred:", e)
+        return None
 
 
-# Function to save report
 def save_report(report, report_path):
 
-    os.makedirs(os.path.dirname(report_path), exist_ok=True)
+    try:
+        if report is None:
+            return
 
-    with open(report_path, "w") as file:
+        os.makedirs(os.path.dirname(report_path), exist_ok=True)
 
-        for line in report:
-            file.write(line + "\n")
+        with open(report_path, "w") as file:
+            file.write(report)
 
-    print("\nReport successfully saved to:", report_path)
+        print("Report successfully saved to:", report_path)
 
-
-# Main program
-try:
-
-    result = analyze_log_file(file_path)
-
-    # Display report in terminal
-    for line in result:
-        print(line)
-
-    # Save report to file
-    save_report(result, report_path)
+    except Exception as e:
+        print("Error while saving report:", e)
 
 
-except FileNotFoundError as e:
+if __name__ == "__main__":
 
-    print("Error:", e)
+    log_file_path = "Logs/Application.log"
+    report_file_path = "Reports/analysis_report.txt"
 
-except Exception as e:
+    analysis_report = analyze_log_file(log_file_path)
 
-    print("Unexpected error:", e)
+    if analysis_report is not None:
+
+        print(analysis_report)
+
+        save_report(
+            analysis_report,
+            report_file_path
+        )
