@@ -1,0 +1,45 @@
+========== APPLICATION LOG ANALYZER ==========
+
+Timestamp: 2026-11-10 09:00:01
+Log Level: INFO
+Message: Application started
+
+Timestamp: 2026-11-10 09:01:15
+Log Level: INFO
+Message: User logged in
+
+Timestamp: 2026-11-10 09:02:20
+Log Level: WARNING
+Message: Memory usage is high
+
+Timestamp: 2026-11-10 09:03:10
+Log Level: ERROR
+Message: Database connection failed
+
+Timestamp: 2026-11-10 09:04:30
+Log Level: INFO
+Message: Application running
+
+Timestamp: 2026-11-10 09:05:40
+Log Level: ERROR
+Message: Unable to connect to server
+
+Timestamp: 2026-11-10 09:06:50
+Log Level: WARNING
+Message: Disk usage is above 80%
+
+Timestamp: 2026-11-10 09:07:10
+Log Level: ERROR
+Message: Database timeout
+
+========== LOG ANALYSIS REPORT ==========
+Total Log Entries: 9
+Valid Log Entries: 8
+Invalid Log Entries: 1
+
+----- LOG LEVEL SUMMARY -----
+ERROR Count: 3
+WARNING Count: 2
+INFO Count: 3
+
+========== ANALYSIS COMPLETED ==========

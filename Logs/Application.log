@@ -1,0 +1,9 @@
+2026-11-10 09:00:01 INFO Application started
+2026-11-10 09:01:15 INFO User logged in
+2026-11-10 09:02:20 WARNING Memory usage is high
+2026-11-10 09:03:10 ERROR Database connection failed
+2026-11-10 09:04:30 INFO Application running
+2026-11-10 09:05:40 ERROR Unable to connect to server
+2026-11-10 09:06:50 WARNING Disk usage is above 80%
+2026-11-10 09:07:10 ERROR Database timeout
+
